@@ -3,7 +3,7 @@
       {
         "type": "googlecompute",
         "state_timeout": "15m",
-        "project_id": "gcp-dn",
+        "project_id": "gcp-dn-poc",
         "machine_type": "n1-standard-1",
         "source_image_family": "ubuntu-1604-lts",
         "region": "us-west1",
