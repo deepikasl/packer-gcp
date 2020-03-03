@@ -1,0 +1,10 @@
+resources:
+  - name: gcpPocGit
+    type: GitRepo
+    configuration:
+      path: jatindogra/packer-gcp
+      gitProvider: github
+      branches:
+        include: ^{{gitBranch}}$
+      files:
+        include: .+
