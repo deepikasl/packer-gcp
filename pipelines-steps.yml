@@ -31,5 +31,6 @@ pipelines:
             - mv /tmp/packer/packer /usr/bin/packer
             - curl https://sdk.cloud.google.com > install.sh
             - bash install.sh --disable-prompts
+            - sudo chmod +x buildImages.sh
             - ./buildImages.sh
             - popd
