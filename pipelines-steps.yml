@@ -29,7 +29,8 @@ pipelines:
             - unzip -o $PK_FILE -d /tmp/packer
             - sudo chmod +x /tmp/packer/packer
             - mv /tmp/packer/packer /usr/bin/packer
-            - curl https://sdk.cloud.google.com | bash
+            - curl https://sdk.cloud.google.com > install.sh
+            - bash install.sh --disable-prompts
             - exec -l $SHELL
             - ./buildImages.sh
             - popd
