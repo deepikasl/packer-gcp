@@ -1,0 +1,37 @@
+pipelines:
+  - name: gcp_poc_pipeline
+    configuration:
+      environmentVariables:
+        readOnly:
+          version: "{{gitBranch}}"
+          packerVersion: "1.4.5"
+          rtRegistry: "pipelines-docker"
+    steps:
+      - name: build_U16_gcp
+        type: Bash
+        configuration:
+          environmentVariables:
+            os: "Ubuntu_16.04"
+            arch: "x86_64"
+          integrations:
+            - name: gcpInt
+          inputResources:
+            - name: gcpPocGit
+        execution:
+          onExecute:
+            - pushd $res_gcpPocGit_resourcePath
+            - popd
+            - pushd $res_gcpPocGit_resourcePath
+            - echo $int_gcpInt_jsonKey > serviceAccount.json
+            - rm -rf /tmp/packer && mkdir -p /tmp/packer
+            - PK_FILE="packer_${packerVersion}_linux_amd64.zip"
+            - wget -nv https://releases.hashicorp.com/packer/${packerVersion}/$PK_FILE
+            - unzip -o $PK_FILE -d /tmp/packer
+            - sudo chmod +x /tmp/packer/packer
+            - mv /tmp/packer/packer /usr/bin/packer
+            - echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            - sudo apt-get install apt-transport-https ca-certificates gnupg
+            - curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+            - sudo apt-get update && sudo apt-get install google-cloud-sdk
+            - ./buildImages.sh
+            - popd
