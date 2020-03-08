@@ -1,0 +1,1 @@
+docker.bintray.io/jfrog/pipelines-u16node:8.17.0
