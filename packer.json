@@ -22,7 +22,7 @@
           "region": "{{user `REGION`}}",
           "zone": "{{user `ZONE`}}",
           "image_description": "{{user `IMAGE_DESCRIPTION`}}",
-          "image_name": "{{user `IMAGE_NAME`}}",
+          "image_name": "{{user `IMAGE_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
           "image_family": "{{ user `IMAGE_FAMILY`}}",
           "disk_size": 150,
           "disk_type": "pd-ssd",
