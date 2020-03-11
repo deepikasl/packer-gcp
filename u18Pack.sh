@@ -96,7 +96,7 @@ build_image() {
     -var IMAGE_FAMILY=$IMAGE_FAMILY \
     -var IMAGE_DESCRIPTION=$IMAGE_DESCRIPTION \
     -var IMAGE_NAME=$IMAGE_NAME \
-    packer.json
+    u18Packer.json
 
   echo "building image"
   echo "-----------------------------------"
@@ -112,7 +112,7 @@ build_image() {
     -var IMAGE_FAMILY=$IMAGE_FAMILY \
     -var IMAGE_DESCRIPTION=$IMAGE_DESCRIPTION \
     -var IMAGE_NAME=$IMAGE_NAME \
-    packer.json 2>&1 | tee output.txt
+    u18Packer.json 2>&1 | tee output.txt
 
   # this is to get the imageName from output
   GCP_IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
