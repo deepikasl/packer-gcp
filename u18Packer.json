@@ -41,12 +41,12 @@
       },
       {
         "destination": "/tmp/99-pipelines.conf",
-        "source": "../99-pipelines.conf",
+        "source": "./99-pipelines.conf",
         "type": "file"
       },
       {
         "type": "shell",
-        "script": "../copyConfigs.sh"
+        "script": "./copyConfigs.sh"
       },
       {
         "type": "file",
