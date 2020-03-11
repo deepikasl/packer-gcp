@@ -80,7 +80,7 @@ build_image() {
     -var SSH_USERNAME=$SSH_USERNAME \
     -var SERVICE_ACCOUNT_JSON=$SERVICE_ACCOUNT_JSON \
     -var IMAGE_FAMILY=$IMAGE_FAMILY \
-    packer.json
+    c7Packer.json
 
   echo "building image"
   echo "-----------------------------------"
