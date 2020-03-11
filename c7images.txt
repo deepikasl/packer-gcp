@@ -1,0 +1,9 @@
+docker.bintray.io/jfrog/pipelines-c7cpp:3.4.2
+docker.bintray.io/jfrog/pipelines-c7go:1.11.13
+docker.bintray.io/jfrog/pipelines-c7go:1.12.14
+docker.bintray.io/jfrog/pipelines-c7go:1.13.7
+docker.bintray.io/jfrog/pipelines-c7node:12.14.0
+docker.bintray.io/jfrog/pipelines-c7node:10.18.0
+docker.bintray.io/jfrog/pipelines-c7node:8.17.0
+docker.bintray.io/jfrog/pipelines-c7java:8
+docker.bintray.io/jfrog/pipelines-c7java:11
