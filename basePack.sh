@@ -114,10 +114,9 @@ build_image() {
     -var IMAGE_NAME=$IMAGE_NAME \
     packer.json 2>&1 | tee output.txt
 
-  cat output.txt
-  # this is to get the ami from output
-  AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-  echo $AMI_ID>ami.txt
+  # this is to get the imageName from output
+  GCP_IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+  echo $GCP_IMAGE_NAME>image.txt
 }
 
 main() {
