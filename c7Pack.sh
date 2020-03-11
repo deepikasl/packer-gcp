@@ -50,6 +50,18 @@ if [ -z "$IMAGE_FAMILY" ]; then
     exit 1
 fi
 
+export IMAGE_DESCRIPTION=$9
+if [ -z "$IMAGE_DESCRIPTION" ]; then
+    echo "Need to provide IMAGE_DESCRIPTION as Input 8"
+    exit 1
+fi
+
+export IMAGE_NAME=${10}
+if [ -z "$IMAGE_NAME" ]; then
+    echo "Need to provide IMAGE_NAME as Input 8"
+    exit 1
+fi
+
 
 set_context(){
   echo "PROJECT_ID=$PROJECT_ID"
@@ -60,6 +72,8 @@ set_context(){
   echo "SSH_USERNAME=${#SSH_USERNAME}" #print only length not value
   echo "SERVICE_ACCOUNT_JSON=$SERVICE_ACCOUNT_JSON"
   echo "IMAGE_FAMILY=$IMAGE_FAMILY"
+  echo "IMAGE_DESCRIPTION=$IMAGE_DESCRIPTION"
+  echo "IMAGE_NAME=$IMAGE_NAME"
 }
 
 get_image_list() {
@@ -80,6 +94,8 @@ build_image() {
     -var SSH_USERNAME=$SSH_USERNAME \
     -var SERVICE_ACCOUNT_JSON=$SERVICE_ACCOUNT_JSON \
     -var IMAGE_FAMILY=$IMAGE_FAMILY \
+    -var IMAGE_DESCRIPTION=$IMAGE_DESCRIPTION \
+    -var IMAGE_NAME=$IMAGE_NAME \
     c7Packer.json
 
   echo "building image"
@@ -94,12 +110,13 @@ build_image() {
     -var SERVICE_ACCOUNT_JSON=$SERVICE_ACCOUNT_JSON \
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var IMAGE_FAMILY=$IMAGE_FAMILY \
+    -var IMAGE_DESCRIPTION=$IMAGE_DESCRIPTION \
+    -var IMAGE_NAME=$IMAGE_NAME \
     c7Packer.json 2>&1 | tee output.txt
 
-  cat output.txt
-  # this is to get the ami from output
-  AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-  echo $AMI_ID>ami.txt
+  # this is to get the imageName from output
+  GCP_IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+  echo $GCP_IMAGE_NAME>image.txt
 }
 
 main() {
