@@ -8,7 +8,9 @@
       "SSH_USERNAME": "",
       "SERVICE_ACCOUNT_JSON": "",
       "IMAGE_NAMES_SPACED": "",
-      "IMAGE_FAMILY": ""
+      "IMAGE_FAMILY": "",
+      "IMAGE_DESCRIPTION": "",
+      "IMAGE_NAME": ""
     },
     "builders": [
       {
@@ -19,13 +21,13 @@
           "source_image_family": "{{user `SOURCE_IMAGE_FAMILY`}}",
           "region": "{{user `REGION`}}",
           "zone": "{{user `ZONE`}}",
-          "image_description": "CentOS 7 Machine Image",
-          "image_name": "c7-poc-deepika-test",
+          "image_description": "{{user `IMAGE_DESCRIPTION`}}",
+          "image_name": "{{user `IMAGE_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
+          "image_family": "{{ user `IMAGE_FAMILY`}}",
           "disk_size": 150,
           "disk_type": "pd-ssd",
           "ssh_username": "{{user `SSH_USERNAME`}}",
-          "account_file": "{{ user `SERVICE_ACCOUNT_JSON`}}",
-          "image_family": "{{ user `IMAGE_FAMILY`}}"
+          "account_file": "{{ user `SERVICE_ACCOUNT_JSON`}}"
         }
     ],
     "provisioners": [
@@ -35,6 +37,34 @@
           "sleep 30",
           "uname -a",
           "uptime"
+        ]
+      },
+      {
+        "destination": "/tmp/99-pipelines.conf",
+        "source": "./99-pipelines.conf",
+        "type": "file"
+      },
+      {
+        "type": "shell",
+        "script": "./copyConfigs.sh"
+      },
+      {
+        "type": "file",
+        "source": "./buildPlane-x86_64-CentOS_7.rpm",
+        "destination": "/tmp/buildPlane-x86_64-CentOS_7.rpm"
+      },
+      {
+        "type": "shell",
+        "inline": [
+          "sudo rpm -i /tmp/buildPlane-x86_64-CentOS_7.rpm",
+          "sudo /var/opt/jfrog/pipelines/nodeInit/x86_64/CentOS_7/boot.sh"
+        ]
+      },
+      {
+        "type": "shell",
+        "script": "basePull.sh",
+        "environment_vars": [
+          "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
         ]
       }
     ]
