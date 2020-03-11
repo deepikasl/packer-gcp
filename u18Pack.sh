@@ -77,7 +77,7 @@ set_context(){
 }
 
 get_image_list() {
-  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
+  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < u18images.txt))
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 }
 
@@ -116,7 +116,7 @@ build_image() {
 
   # this is to get the imageName from output
   GCP_IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-  echo $GCP_IMAGE_NAME>image.txt
+  echo $GCP_IMAGE_NAME>u18image.txt
 }
 
 main() {
